@@ -1,0 +1,1 @@
+#import "../../Source/GPUImageBilateralFilter.h"

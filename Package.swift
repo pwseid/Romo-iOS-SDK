@@ -15,14 +15,47 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.8.0"),
-        .package(url: "https://github.com/facebookincubator/SocketRocket.git", from: "0.7.1")
+        .package(url: "https://github.com/facebookincubator/SocketRocket.git", from: "0.7.1"),
+        .package(url: "https://github.com/yeatse/opencv-spm.git", from: "4.13.0")
     ],
     targets: [
         .target(
+            name: "GPUImage",
+            path: "Vendor/GPUImage/framework",
+            exclude: [
+                "GPUImage.xcodeproj",
+                "GPUImageMac.xcodeproj",
+                "Source/Mac",
+                "Source/iOS/GPUImage-Prefix.pch",
+                "Source/iOS/Framework"
+            ],
+            sources: [
+                "Source"
+            ],
+            resources: [
+                .process("Resources")
+            ],
+            publicHeadersPath: "include",
+            cSettings: [
+                .headerSearchPath("Source"),
+                .headerSearchPath("Source/iOS")
+            ],
+            linkerSettings: [
+                .linkedFramework("AVFoundation"),
+                .linkedFramework("CoreMedia"),
+                .linkedFramework("CoreVideo"),
+                .linkedFramework("OpenGLES"),
+                .linkedFramework("QuartzCore"),
+                .linkedFramework("UIKit")
+            ]
+        ),
+        .target(
             name: "Romo",
             dependencies: [
+                "GPUImage",
                 .product(name: "CocoaLumberjack", package: "CocoaLumberjack"),
-                .product(name: "SocketRocket", package: "SocketRocket")
+                .product(name: "SocketRocket", package: "SocketRocket"),
+                .product(name: "OpenCV", package: "opencv-spm")
             ],
             path: ".",
             exclude: [
@@ -31,19 +64,22 @@ let package = Package(
                 "RMCharacter/Examples",
                 "RMCore/Examples",
                 "RMShared/Examples",
-                "RMVision",
+                "RMVision/Examples",
                 "RMCharacter/Classes/RMCharacter-Prefix.pch",
                 "RMCore/Classes/RMCore-Prefix.pch",
                 "RMCore/Classes/Supporting Files",
-                "RMShared/Classes/RMShared-Prefix.pch"
+                "RMShared/Classes/RMShared-Prefix.pch",
+                "Vendor"
             ],
             sources: [
                 "RMShared/Classes",
                 "RMCore/Classes",
-                "RMCharacter/Classes"
+                "RMCharacter/Classes",
+                "RMVision/Classes"
             ],
             resources: [
-                .process("RMCharacter/Assets")
+                .process("RMCharacter/Assets"),
+                .process("RMVision/Assets")
             ],
             publicHeadersPath: "SPM/include",
             cSettings: [
@@ -76,13 +112,34 @@ let package = Package(
                 .headerSearchPath("RMShared/Classes/Math"),
                 .headerSearchPath("RMShared/Classes/lib/Categories"),
                 .headerSearchPath("RMShared/Classes/lib/Loggers"),
-                .headerSearchPath("RMShared/Classes/lib/Web Socket")
+                .headerSearchPath("RMShared/Classes/lib/Web Socket"),
+                .headerSearchPath("RMVision/Classes"),
+                .headerSearchPath("RMVision/Classes/Debug"),
+                .headerSearchPath("RMVision/Classes/Debug/UI"),
+                .headerSearchPath("RMVision/Classes/Filters"),
+                .headerSearchPath("RMVision/Classes/Modules"),
+                .headerSearchPath("RMVision/Classes/Modules/Brightness Metering"),
+                .headerSearchPath("RMVision/Classes/Modules/Color Detection"),
+                .headerSearchPath("RMVision/Classes/Modules/Face Detection"),
+                .headerSearchPath("RMVision/Classes/Modules/GPUImage"),
+                .headerSearchPath("RMVision/Classes/Modules/Line Detection"),
+                .headerSearchPath("RMVision/Classes/Modules/Motion Detection"),
+                .headerSearchPath("RMVision/Classes/Modules/Natural Training"),
+                .headerSearchPath("RMVision/Classes/Modules/Object Tracking"),
+                .headerSearchPath("RMVision/Classes/Modules/Picture"),
+                .headerSearchPath("RMVision/Classes/Modules/Stasis Detection"),
+                .headerSearchPath("RMVision/Classes/Modules/Video"),
+                .headerSearchPath("RMVision/Classes/Objects"),
+                .headerSearchPath("RMVision/Classes/Utils")
             ],
             linkerSettings: [
                 .linkedFramework("AVFoundation"),
+                .linkedFramework("CoreMedia"),
                 .linkedFramework("CoreMotion"),
+                .linkedFramework("CoreVideo"),
                 .linkedFramework("ExternalAccessory"),
                 .linkedFramework("MediaPlayer"),
+                .linkedFramework("OpenGLES"),
                 .linkedFramework("QuartzCore"),
                 .linkedFramework("UIKit")
             ]

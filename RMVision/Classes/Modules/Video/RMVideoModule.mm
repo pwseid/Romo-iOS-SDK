@@ -7,6 +7,7 @@
 //
 
 #import "RMVideoModule.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
 
 #ifdef DEBUG_VIDEO_MODULE
 #define LOG(...) DDLogWarn(__VA_ARGS__)

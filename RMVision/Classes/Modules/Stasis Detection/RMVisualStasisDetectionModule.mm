@@ -12,12 +12,12 @@
 #import <GPUImage/GPUImageAverageColor.h>
 #import <GPUImage/GPUImageTwoInputFilter.h>
 #import <GPUImage/GPUImageRawDataInput.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import <Romo/RMMath.h>
 
 #ifdef VISUAL_STASIS_DEBUG
-#import "DDLog.h"
 // TODO: !! Figure out why this "needs" to be included here !!
-static int ddLogLevel __unused = LOG_LEVEL_INFO;
+static int ddLogLevel __unused = DDLogLevelInfo;
 // TODO: !! Figure out why this "needs" to be included here !!
 #endif
 

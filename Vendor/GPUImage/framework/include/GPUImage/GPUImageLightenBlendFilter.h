@@ -1,0 +1,1 @@
+#import "../../Source/GPUImageLightenBlendFilter.h"

@@ -75,8 +75,7 @@ You can also include Romo via SPM:
    `https://github.com/Navideck/Romo-iOS-SDK`
 3. Choose your preferred version rule and add the `Romo` product to your target.
 
-`Romo` includes `RMShared`, `RMCore`, and `RMCharacter`.
-`RMVision` is not part of the SPM target yet.
+`Romo` includes `RMShared`, `RMCore`, `RMCharacter`, and `RMVision`.
 
 ### Carthage
 Although not tested yet, the basic folder structure for Carthage is in place so it should theoretically already be working.

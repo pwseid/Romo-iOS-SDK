@@ -10,6 +10,38 @@
 #import <GPUImage/GPUImagePicture.h>
 #import <GPUImage/GPUImageLookupFilter.h>
 #import <GPUImage/GPUImageOutput.h>
+#import <UIKit/UIKit.h>
+
+static UIImage *RMLookupImageFromBundles(NSString *imageName)
+{
+    NSString *name = [imageName stringByDeletingPathExtension];
+    NSString *ext = [imageName pathExtension];
+    if (ext.length == 0) {
+        ext = @"png";
+    }
+
+    for (NSBundle *bundle in [NSBundle allBundles]) {
+        NSString *path = [bundle pathForResource:name ofType:ext];
+        if (path) {
+            UIImage *image = [UIImage imageWithContentsOfFile:path];
+            if (image) {
+                return image;
+            }
+        }
+    }
+
+    for (NSBundle *bundle in [NSBundle allFrameworks]) {
+        NSString *path = [bundle pathForResource:name ofType:ext];
+        if (path) {
+            UIImage *image = [UIImage imageWithContentsOfFile:path];
+            if (image) {
+                return image;
+            }
+        }
+    }
+
+    return nil;
+}
 
 @implementation GPUImageCustomLookupFilter
 
@@ -27,6 +59,12 @@
     if (!image)
     {
         image = [UIImage imageWithContentsOfFile:imageName];
+    }
+
+    // SwiftPM resources live in bundles, not necessarily the app's main bundle.
+    if (!image)
+    {
+        image = RMLookupImageFromBundles(imageName);
     }
 #else
     NSImage *image = [NSImage imageNamed:imageName];

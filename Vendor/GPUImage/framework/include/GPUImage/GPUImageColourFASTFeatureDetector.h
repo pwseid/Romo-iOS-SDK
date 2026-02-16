@@ -1,0 +1,1 @@
+#import "../../Source/GPUImageColourFASTFeatureDetector.h"
