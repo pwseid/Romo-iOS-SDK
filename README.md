@@ -67,6 +67,17 @@ target 'My Cool Romo App' do
 end
 ```
 
+### Using Swift Package Manager
+You can also include Romo via SPM:
+
+1. In Xcode, open your app project and go to `File > Add Package Dependencies...`
+2. Enter this URL:
+   `https://github.com/Navideck/Romo-iOS-SDK`
+3. Choose your preferred version rule and add the `Romo` product to your target.
+
+`Romo` includes `RMShared`, `RMCore`, and `RMCharacter`.
+`RMVision` is not part of the SPM target yet.
+
 ### Carthage
 Although not tested yet, the basic folder structure for Carthage is in place so it should theoretically already be working.
 

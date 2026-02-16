@@ -8,7 +8,14 @@
 #import "RMProgrammingProtocol.h"
 #import "STK500Programmer.h"
 #import <Romo/RMMath.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "RMCoreRobotCommunicationOld.h"
+
+#ifdef DEBUG
+static int ddLogLevel __unused = DDLogLevelVerbose;
+#else
+static int ddLogLevel __unused = DDLogLevelInfo;
+#endif
 
 #ifdef DEBUG_CONNECTION
 #define CONNECT_LOG(...) DDLogWarn(__VA_ARGS__)

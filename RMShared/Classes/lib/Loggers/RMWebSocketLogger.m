@@ -7,7 +7,27 @@
 #import "RMWebSocket.h"
 #import "UIApplication+Environment.h"
 #import "UIDevice+UDID.h"
-#import "RMShared-Prefix.pch"
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+#ifdef DEBUG
+static int ddLogLevel __unused = DDLogLevelVerbose;
+#else
+static int ddLogLevel __unused = DDLogLevelInfo;
+#endif
+
+#ifdef DEBUG
+#define DDLOG_ENABLE_DYNAMIC_LEVELS \
++ (int)ddLogLevel \
+{ \
+return ddLogLevel; \
+} \
++ (void)ddSetLogLevel:(int)logLevel \
+{ \
+ddLogLevel = logLevel; \
+}
+#else
+#define DDLOG_ENABLE_DYNAMIC_LEVELS
+#endif
 
 @interface RMWebSocketLogger () <RMWebSocketDelegate>
 

@@ -8,7 +8,27 @@
 
 #import "RMWebSocket.h"
 #import <SocketRocket/SRWebSocket.h>
-#import "RMShared-Prefix.pch"
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+#ifdef DEBUG
+static int ddLogLevel __unused = DDLogLevelVerbose;
+#else
+static int ddLogLevel __unused = DDLogLevelInfo;
+#endif
+
+#ifdef DEBUG
+#define DDLOG_ENABLE_DYNAMIC_LEVELS \
++ (int)ddLogLevel \
+{ \
+return ddLogLevel; \
+} \
++ (void)ddSetLogLevel:(int)logLevel \
+{ \
+ddLogLevel = logLevel; \
+}
+#else
+#define DDLOG_ENABLE_DYNAMIC_LEVELS
+#endif
 
 /**
  * The values of the following enum are important. They match up directly with
