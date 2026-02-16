@@ -15,7 +15,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.8.0"),
-        .package(url: "https://github.com/facebookincubator/SocketRocket.git", from: "0.7.1"),
         .package(url: "https://github.com/yeatse/opencv-spm.git", from: "4.13.0")
     ],
     targets: [
@@ -54,7 +53,6 @@ let package = Package(
             dependencies: [
                 "GPUImage",
                 .product(name: "CocoaLumberjack", package: "CocoaLumberjack"),
-                .product(name: "SocketRocket", package: "SocketRocket"),
                 .product(name: "OpenCV", package: "opencv-spm")
             ],
             path: ".",
