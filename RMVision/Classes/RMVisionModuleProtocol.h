@@ -18,7 +18,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #ifdef __cplusplus
-    #import <opencv2/opencv.hpp>
+    #import "RMOpenCVHeaders.h"
 #endif
 
 @class RMVision;

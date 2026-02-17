@@ -19,7 +19,8 @@
 #import "RMImageUtils.h"
 #import "RMOpenCVUtils.h"
 #import "UIImage+OpenCV.h"
-#import "RMOpenCVUtils.h"
+
+#include <stdlib.h>
 
 //static const float kRMObjectTimeTrackedThreshold = 0.5;
 static const int kNegativeResponseLabel = 1;
@@ -318,9 +319,14 @@ static const int kPositiveResponseLabel = 2;
     
     if (self) {
         
-        NSUInteger rows = arc4random_uniform(1000) + 1;
-        NSUInteger cols = arc4random_uniform(1000) + 1;
-        NSUInteger depth = arc4random_uniform(CV_USRTYPE1);
+        uint32_t rows = arc4random_uniform((uint32_t)1000) + 1;
+        uint32_t cols = arc4random_uniform((uint32_t)1000) + 1;
+#if defined(CV_16F)
+        uint32_t depthRange = (uint32_t)CV_16F + 1;
+#else
+        uint32_t depthRange = (uint32_t)CV_64F + 1;
+#endif
+        uint32_t depth = arc4random_uniform(depthRange);
         
         _trainingData = cv::Mat((int)rows, (int)cols, CV_MAKETYPE(depth, 1));
         _labels = cv::Mat((int)rows, 1, CV_32FC1);
@@ -330,10 +336,10 @@ static const int kPositiveResponseLabel = 2;
         
         // Rather than using the predefine labels. We will use random labels
         // to test for compabilility with different labelsß
-        _positiveResponseLabel = arc4random_uniform(256);
+        _positiveResponseLabel = (int)arc4random_uniform((uint32_t)256);
         do {
-            _negativeResponseLabel = arc4random_uniform(256);
-        } while (_negativeResponseLabel != _positiveResponseLabel);
+            _negativeResponseLabel = (int)arc4random_uniform((uint32_t)256);
+        } while (_negativeResponseLabel == _positiveResponseLabel);
 
     }
     

@@ -5,7 +5,7 @@
 //  Created on 9/4/13.
 //
 
-#import <GPUImage/GPUImageFilter.h>
+#import "RMGPUImageCompatibility.h"
 
 @interface NormalBayesModel : NSObject
 

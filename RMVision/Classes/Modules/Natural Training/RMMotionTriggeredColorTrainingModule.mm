@@ -10,8 +10,7 @@
 #import "RMVisionDebugBroker.h"
 #import "GPUImageMotionSegmentation.h"
 #import "GPUImageBrightColorNotchFilter.h"
-#import <GPUImage/GPUImageRawDataInput.h>
-#import <GPUImage/GPUImageRawDataOutput.h>
+#import "RMGPUImageCompatibility.h"
 #import "UIImage+OpenCV.h"
 
 using namespace cv;

@@ -8,13 +8,7 @@
 #import "GPUImageMaskToPixelPositionFilter.h"
 #import "GPUImageBrightColorNotchFilter.h"
 #import "GPUImageFilter+RMAdditions.h"
-#import <GPUImage/GPUImageRawDataInput.h>
-#import <GPUImage/GPUImageGrayscaleFilter.h>
-#import <GPUImage/GPUImageAlphaBlendFilter.h>
-#import <GPUImage/GPUImageBoxBlurFilter.h>
-#import <GPUImage/GPUImageSaturationFilter.h>
-#import <GPUImage/GPUImageAverageColor.h>
-#import <GPUImage/GPUImageView.h>
+#import "RMGPUImageCompatibility.h"
 
 
 @interface RMThroughRomosEyesModule ()

@@ -10,8 +10,7 @@
 #import <Romo/RMMath.h>
 #import "RMVision_Internal.h"
 #import "GPUImageBrightHueSegmentation.h"
-#import <GPUImage/GPUImageFilter.h>
-#import <GPUImage/GPUImageAverageColor.h>
+#import "RMGPUImageCompatibility.h"
 
 static const float triggerTimeoutDuration = 4.0; // seconds
 

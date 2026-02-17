@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Romotive, Inc. All rights reserved.
 //
 
-#import <GPUImage/GPUImageRawDataInput.h>
+#import "RMGPUImageCompatibility.h"
 
 @interface GPUImageRawDataInput (RMAdditions)
 

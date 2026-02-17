@@ -18,7 +18,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#import <GPUImage/GPUImageFilter.h>
+#import "RMGPUImageCompatibility.h"
 
 @interface GPUImageFilter (RMAdditions)
 

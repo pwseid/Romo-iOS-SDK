@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Romotive, Inc. All rights reserved.
 //
 
-#import <GPUImage/GPUImageFilterGroup.h>
-#import <GPUImage/GPUImageLowPassFilter.h>
+#import "RMGPUImageCompatibility.h"
 
 @interface GPUImageMotionSegmentation : GPUImageFilterGroup
 {

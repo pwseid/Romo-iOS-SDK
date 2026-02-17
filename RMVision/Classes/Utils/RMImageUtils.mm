@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #import "RMImageUtils.h"
-#import <opencv2/opencv.hpp>
+#import "RMOpenCVHeaders.h"
 
 #define CLAMP(min, val, max) (MAX(min, MIN(val, max)))
 

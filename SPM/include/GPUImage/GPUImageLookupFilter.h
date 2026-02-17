@@ -1,0 +1,1 @@
+#import <GPUImageLookupFilter.h>

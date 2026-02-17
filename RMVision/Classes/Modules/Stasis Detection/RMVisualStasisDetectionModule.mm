@@ -7,11 +7,7 @@
 //
 
 #import "RMVisualStasisDetectionModule.h"
-#import <GPUImage/GPUImageGaussianBlurFilter.h>
-#import <GPUImage/GPUImageBuffer.h>
-#import <GPUImage/GPUImageAverageColor.h>
-#import <GPUImage/GPUImageTwoInputFilter.h>
-#import <GPUImage/GPUImageRawDataInput.h>
+#import "RMGPUImageCompatibility.h"
 #import "RMCocoaLumberjack.h"
 #import <Romo/RMMath.h>
 

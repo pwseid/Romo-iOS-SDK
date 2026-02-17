@@ -11,10 +11,7 @@
 #import "RMVision.h"
 #import <Romo/RMShared.h>
 #import "GPUImageNormalBayesFilter.h"
-#import <GPUImage/GPUImageRawDataOutput.h>
-#import <GPUImage/GPUImageBrightnessFilter.h>
-#import <GPUImage/GPUImageBrightnessFilter.h>
-#import <GPUImage/GPUImageAverageColor.h>
+#import "RMGPUImageCompatibility.h"
 #import "RMNormalBayes.h"
 #import "RMOpenCVUtils.h"
 
@@ -817,9 +814,11 @@ using namespace cv;
     cv::Mat negativePixels = self.negativePixels;
     
     for (int i = 0; i < kNumberOfPixelsPerFrameToReplace; i++) {
-        int replacementRowNumber = arc4random_uniform(negativePixels.rows/2); // Divide by two since we want to save a portion of the original data
+        int replacementRowLimit = MAX(1, negativePixels.rows / 2); // Divide by two since we want to save a portion of the original data
+        int replacementRowNumber = (int)arc4random_uniform((uint32_t)replacementRowLimit);
         
-        cv::Vec4b negativePixel = image.at<Vec4b>(arc4random_uniform(image.rows), arc4random_uniform(image.cols));
+        cv::Vec4b negativePixel = image.at<Vec4b>((int)arc4random_uniform((uint32_t)image.rows),
+                                                  (int)arc4random_uniform((uint32_t)image.cols));
         
         negativePixels.at<float>(replacementRowNumber,0) = negativePixel[0];
         negativePixels.at<float>(replacementRowNumber,1) = negativePixel[1];

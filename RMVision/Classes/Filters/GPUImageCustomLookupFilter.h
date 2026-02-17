@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Romotive, Inc. All rights reserved.
 //
 
-#import <GPUImage/GPUImageFilterGroup.h>
+#import "RMGPUImageCompatibility.h"
 
 @class GPUImagePicture;
 

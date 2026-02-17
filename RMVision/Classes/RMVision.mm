@@ -29,7 +29,7 @@
 
 #import "UIImage+OpenCV.h"
 
-#import <GPUImage/GPUImageRawDataInput.h>
+#import "RMGPUImageCompatibility.h"
 #import "RMCocoaLumberjack.h"
 #import "GPUImageRawDataInput+RMAdditions.h"
 

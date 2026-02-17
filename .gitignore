@@ -36,3 +36,6 @@ Carthage/Build
 #
 Pods/
 .vscode/
+# Local build artifacts
+.build/
+.swiftpm/

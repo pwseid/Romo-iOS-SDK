@@ -8,8 +8,7 @@
 
 #import "RMVisionModule.h"
 #import "RMVisionModuleProtocol.h"
-#import <GPUImage/GPUImageFilterGroup.h>
-#import <GPUImage/GPUImageContext.h>
+#import "RMGPUImageCompatibility.h"
 
 @interface RMGPUImageExampleModule : GPUImageFilterGroup <RMVisionModuleProtocol, GPUImageInput>
 

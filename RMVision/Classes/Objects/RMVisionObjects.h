@@ -22,7 +22,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 #ifdef __cplusplus
-    #import <opencv2/opencv.hpp>
+    #import "RMOpenCVHeaders.h"
 #endif
 
 // RMObject

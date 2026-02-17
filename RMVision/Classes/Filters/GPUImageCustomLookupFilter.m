@@ -7,9 +7,7 @@
 //
 
 #import "GPUImageCustomLookupFilter.h"
-#import <GPUImage/GPUImagePicture.h>
-#import <GPUImage/GPUImageLookupFilter.h>
-#import <GPUImage/GPUImageOutput.h>
+#import "RMGPUImageCompatibility.h"
 #import <UIKit/UIKit.h>
 
 static UIImage *RMLookupImageFromBundles(NSString *imageName)
