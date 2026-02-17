@@ -8,13 +8,7 @@
 
 #import "RMWebSocket.h"
 #import "RMCocoaLumberjack.h"
-
-#if __has_include(<SocketRocket/SRWebSocket.h>)
 #import <SocketRocket/SRWebSocket.h>
-#define RM_HAS_SOCKETROCKET 1
-#else
-#define RM_HAS_SOCKETROCKET 0
-#endif
 
 #ifdef DEBUG
 static int ddLogLevel __unused = DDLogLevelVerbose;
@@ -67,19 +61,11 @@ typedef enum RMWebSocketSocketIOCommand {
 @end
 
 
-#if RM_HAS_SOCKETROCKET
-@interface RMWebSocket () <SRWebSocketDelegate, NSURLSessionDelegate>
-#else
-@interface RMWebSocket () <NSURLSessionDelegate>
-#endif
+@interface RMWebSocket () <SRWebSocketDelegate>
 
 @property (nonatomic, readwrite, strong) NSString *name;
 
-#if RM_HAS_SOCKETROCKET
 @property (nonatomic, strong) SRWebSocket *socket;
-#endif
-@property (nonatomic, strong) NSURLSession *nativeSocketSession;
-@property (nonatomic, strong) NSURLSessionWebSocketTask *nativeSocket API_AVAILABLE(ios(13.0));
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic, strong) NSMutableDictionary *eventHandlers;
 @property (nonatomic, strong) NSMutableDictionary *ackHandlers;
@@ -181,13 +167,9 @@ DDLOG_ENABLE_DYNAMIC_LEVELS
 {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/%@", [self serverURL], token]];
 
-#if RM_HAS_SOCKETROCKET
     self.socket = [[SRWebSocket alloc] initWithURL:url];
     self.socket.delegate = self;
     [self.socket open];
-#else
-    [self openNativeWebSocketConnectionWithURL:url];
-#endif
 }
 
 - (NSString *)webSocketHandshakeTokenFromData:(NSData *)data
@@ -374,65 +356,9 @@ DDLOG_ENABLE_DYNAMIC_LEVELS
 
 - (void)closeConnection
 {
-#if RM_HAS_SOCKETROCKET
     [self.socket close];
     self.socket.delegate = nil;
     self.socket = nil;
-#endif
-
-    if (@available(iOS 13.0, *)) {
-        [self.nativeSocket cancelWithCloseCode:NSURLSessionWebSocketCloseCodeNormalClosure reason:nil];
-        self.nativeSocket = nil;
-    }
-
-    [self.nativeSocketSession invalidateAndCancel];
-    self.nativeSocketSession = nil;
-}
-
-- (void)openNativeWebSocketConnectionWithURL:(NSURL *)url
-{
-    if (@available(iOS 13.0, *)) {
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        self.nativeSocketSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
-        self.nativeSocket = [self.nativeSocketSession webSocketTaskWithURL:url];
-        [self.nativeSocket resume];
-        [self receiveNextNativeMessage];
-    } else {
-        self.state = RMWebSocketStateDisconnected;
-    }
-}
-
-- (void)receiveNextNativeMessage
-{
-    if (@available(iOS 13.0, *)) {
-        if (!self.nativeSocket) {
-            return;
-        }
-
-        __weak typeof(self) weakSelf = self;
-        [self.nativeSocket receiveMessageWithCompletionHandler:^(NSURLSessionWebSocketMessage * _Nullable message, NSError * _Nullable error) {
-            __strong typeof(self) strongSelf = weakSelf;
-            if (!strongSelf) {
-                return;
-            }
-
-            if (error) {
-                [strongSelf didFailWithError:error];
-                return;
-            }
-
-            if (message.type == NSURLSessionWebSocketMessageTypeString) {
-                [strongSelf handleReceivedMessageString:message.string];
-            } else if (message.type == NSURLSessionWebSocketMessageTypeData) {
-                NSString *string = [[NSString alloc] initWithData:message.data encoding:NSUTF8StringEncoding];
-                if (string.length > 0) {
-                    [strongSelf handleReceivedMessageString:string];
-                }
-            }
-
-            [strongSelf receiveNextNativeMessage];
-        }];
-    }
 }
 
 - (void)sendRawMessage:(NSString *)message
@@ -441,24 +367,8 @@ DDLOG_ENABLE_DYNAMIC_LEVELS
         return;
     }
 
-#if RM_HAS_SOCKETROCKET
     if (self.socket.readyState == SR_OPEN) {
         [self.socket send:message];
-        return;
-    }
-#endif
-
-    if (@available(iOS 13.0, *)) {
-        if (self.nativeSocket && self.state == RMWebSocketStateConnected) {
-            __weak typeof(self) weakSelf = self;
-            NSURLSessionWebSocketMessage *nativeMessage = [[NSURLSessionWebSocketMessage alloc] initWithString:message];
-            [self.nativeSocket sendMessage:nativeMessage completionHandler:^(NSError * _Nullable error) {
-                if (error) {
-                    __strong typeof(self) strongSelf = weakSelf;
-                    [strongSelf didFailWithError:error];
-                }
-            }];
-        }
     }
 }
 
@@ -549,7 +459,6 @@ DDLOG_ENABLE_DYNAMIC_LEVELS
     }
 }
 
-#if RM_HAS_SOCKETROCKET
 #pragma mark - SRWebSocketDelegate
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
@@ -577,21 +486,6 @@ DDLOG_ENABLE_DYNAMIC_LEVELS
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
 {
     [self didCloseWithCode:code reason:reason wasClean:wasClean];
-}
-#endif
-
-#pragma mark - NSURLSessionWebSocketDelegate
-
-- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didOpenWithProtocol:(NSString *)protocol API_AVAILABLE(ios(13.0))
-{
-    self.state = RMWebSocketStateConnected;
-}
-
-- (void)URLSession:(NSURLSession *)session webSocketTask:(NSURLSessionWebSocketTask *)webSocketTask didCloseWithCode:(NSURLSessionWebSocketCloseCode)closeCode reason:(NSData *)reason API_AVAILABLE(ios(13.0))
-{
-    NSString *reasonString = [[NSString alloc] initWithData:reason encoding:NSUTF8StringEncoding];
-    BOOL cleanClose = closeCode == NSURLSessionWebSocketCloseCodeNormalClosure;
-    [self didCloseWithCode:closeCode reason:reasonString wasClean:cleanClose];
 }
 
 @end
