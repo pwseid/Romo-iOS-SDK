@@ -10,12 +10,29 @@
       }
     },
     {
+      "identity" : "gpuimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pwseid/GPUImage.git",
+      "state" : {
+        "revision" : "d89c7b1f9758ea483f573dc787c434ec78974822"
+      }
+    },
+    {
       "identity" : "opencv-spm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yeatse/opencv-spm.git",
       "state" : {
         "revision" : "151a5374946aa867ff3892e0d69fd85e1ecdaf2e",
         "version" : "4.13.0"
+      }
+    },
+    {
+      "identity" : "socketrocket",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pwseid/SocketRocket.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ce4fe12cc3403f41773e014ae84cf21f194a8aa5"
       }
     },
     {

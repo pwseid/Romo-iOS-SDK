@@ -15,44 +15,17 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.8.0"),
+        .package(url: "https://github.com/pwseid/GPUImage.git", revision: "d89c7b1f9758ea483f573dc787c434ec78974822"),
+        .package(url: "https://github.com/pwseid/SocketRocket.git", branch: "main"),
         .package(url: "https://github.com/yeatse/opencv-spm.git", from: "4.13.0")
     ],
     targets: [
         .target(
-            name: "GPUImage",
-            path: "Vendor/GPUImage/framework",
-            exclude: [
-                "GPUImage.xcodeproj",
-                "GPUImageMac.xcodeproj",
-                "Source/Mac",
-                "Source/iOS/GPUImage-Prefix.pch",
-                "Source/iOS/Framework"
-            ],
-            sources: [
-                "Source"
-            ],
-            resources: [
-                .process("Resources")
-            ],
-            publicHeadersPath: "include",
-            cSettings: [
-                .headerSearchPath("Source"),
-                .headerSearchPath("Source/iOS")
-            ],
-            linkerSettings: [
-                .linkedFramework("AVFoundation"),
-                .linkedFramework("CoreMedia"),
-                .linkedFramework("CoreVideo"),
-                .linkedFramework("OpenGLES"),
-                .linkedFramework("QuartzCore"),
-                .linkedFramework("UIKit")
-            ]
-        ),
-        .target(
             name: "Romo",
             dependencies: [
-                "GPUImage",
+                .product(name: "GPUImage", package: "GPUImage"),
                 .product(name: "CocoaLumberjack", package: "CocoaLumberjack"),
+                .product(name: "SocketRocket", package: "SocketRocket"),
                 .product(name: "OpenCV", package: "opencv-spm")
             ],
             path: ".",
