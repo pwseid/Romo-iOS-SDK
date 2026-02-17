@@ -1,1 +1,0 @@
-#import <GPUImageBrightnessFilter.h>

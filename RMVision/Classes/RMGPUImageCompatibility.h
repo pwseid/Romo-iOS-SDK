@@ -7,7 +7,9 @@
 
 #pragma once
 
-#if __has_feature(modules)
+#if defined(SWIFT_PACKAGE)
+@import GPUImage;
+#elif __has_feature(modules)
 @import GPUImage;
 #elif __has_include(<GPUImage/GPUImage.h>)
 #import <GPUImage/GPUImage.h>
