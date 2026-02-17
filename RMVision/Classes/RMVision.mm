@@ -30,7 +30,7 @@
 #import "UIImage+OpenCV.h"
 
 #import <GPUImage/GPUImageRawDataInput.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RMCocoaLumberjack.h"
 #import "GPUImageRawDataInput+RMAdditions.h"
 
 #import <Romo/UIDevice+Romo.h>

@@ -12,7 +12,7 @@
 #import <GPUImage/GPUImageAverageColor.h>
 #import <GPUImage/GPUImageTwoInputFilter.h>
 #import <GPUImage/GPUImageRawDataInput.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RMCocoaLumberjack.h"
 #import <Romo/RMMath.h>
 
 #ifdef VISUAL_STASIS_DEBUG

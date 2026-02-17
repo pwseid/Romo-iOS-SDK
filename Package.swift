@@ -5,11 +5,11 @@ let package = Package(
     name: "Romo",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v12)
+        .iOS(.v13)
     ],
     products: [
         .library(
-            name: "Romo",
+            name: "RomoSDK",
             targets: ["Romo"]
         )
     ],

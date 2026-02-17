@@ -70,10 +70,12 @@ end
 ### Using Swift Package Manager
 You can also include Romo via SPM:
 
+Minimum deployment target for SPM is iOS 13.
+
 1. In Xcode, open your app project and go to `File > Add Package Dependencies...`
 2. Enter this URL:
    `https://github.com/Navideck/Romo-iOS-SDK`
-3. Choose your preferred version rule and add the `Romo` product to your target.
+3. Choose your preferred version rule and add the `RomoSDK` product to your target.
 
 `Romo` includes `RMShared`, `RMCore`, `RMCharacter`, and `RMVision`.
 

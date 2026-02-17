@@ -7,7 +7,7 @@
 //
 
 #import "RMWebSocket.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RMCocoaLumberjack.h"
 
 #if __has_include(<SocketRocket/SRWebSocket.h>)
 #import <SocketRocket/SRWebSocket.h>

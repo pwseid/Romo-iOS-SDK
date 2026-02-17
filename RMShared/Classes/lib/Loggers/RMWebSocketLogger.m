@@ -7,7 +7,7 @@
 #import "RMWebSocket.h"
 #import "UIApplication+Environment.h"
 #import "UIDevice+UDID.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RMCocoaLumberjack.h"
 
 #ifdef DEBUG
 static int ddLogLevel __unused = DDLogLevelVerbose;

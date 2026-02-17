@@ -8,7 +8,7 @@
 #import "RMProgrammingProtocol.h"
 #import "STK500Programmer.h"
 #import <Romo/RMMath.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "RMCocoaLumberjack.h"
 #import "RMCoreRobotCommunicationOld.h"
 
 #ifdef DEBUG
