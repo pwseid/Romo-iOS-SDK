@@ -14,7 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pwseid/GPUImage.git",
       "state" : {
-        "revision" : "d89c7b1f9758ea483f573dc787c434ec78974822"
+        "branch" : "master",
+        "revision" : "c1367c1904afe6d1aaa784200fe4ffaa5b82efea"
       }
     },
     {

@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.8.0"),
-        .package(url: "https://github.com/pwseid/GPUImage.git", revision: "d89c7b1f9758ea483f573dc787c434ec78974822"),
+        .package(url: "https://github.com/pwseid/GPUImage.git", branch: "master"),
         .package(url: "https://github.com/pwseid/SocketRocket.git", branch: "main"),
         .package(url: "https://github.com/yeatse/opencv-spm.git", from: "4.13.0")
     ],
