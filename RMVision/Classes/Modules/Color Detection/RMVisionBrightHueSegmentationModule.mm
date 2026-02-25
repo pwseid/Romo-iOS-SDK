@@ -7,7 +7,11 @@
 //
 
 #import "RMVisionBrightHueSegmentationModule.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 #import "RMVision_Internal.h"
 #import "GPUImageBrightHueSegmentation.h"
 #import <GPUImage/GPUImageFilter.h>

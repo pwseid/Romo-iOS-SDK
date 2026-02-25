@@ -5,7 +5,11 @@
 
 #import "RMCoreRobotCommunication.h"
 #import <UIKit/UIKit.h>
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 
 #define RPDEBUG                                   // Turn on RMCoreRobotCommunication Debugging (NSLogs)
 

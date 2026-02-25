@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#ifdef __OBJC__
+#undef YES
+#undef NO
+#endif
 #import <opencv2/opencv.hpp>
+#ifdef __OBJC__
+#define YES ((BOOL)1)
+#define NO  ((BOOL)0)
+#endif
 
 @interface RMOpenCVUtils : NSObject
 

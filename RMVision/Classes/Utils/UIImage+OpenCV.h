@@ -19,8 +19,15 @@
 #import <CoreVideo/CoreVideo.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <opencv2/core/types_c.h>
+#ifdef __OBJC__
+#undef YES
+#undef NO
+#endif
 #import <opencv2/opencv.hpp>
+#ifdef __OBJC__
+#define YES ((BOOL)1)
+#define NO  ((BOOL)0)
+#endif
 
 @interface UIImage (UIImage_OpenCV)
 
@@ -34,23 +41,6 @@
 -(id)initWithCVMat:(const cv::Mat&)other;
 -(id)initWithCVMat:(const cv::Mat&)other scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
 + (cv::Mat)cvMatWithImage:(UIImage *)image;
-
-// IplImage utilities
-//==============================================================================
-// These DO copy the image data out of the UIImage.  It's safe to
-// deallocate the UIImage and continue to use the IplImage.
-//------------------------------------------------------------------------------
-+ (IplImage *)createGRAYIplImageFromUIImage:(UIImage *)image;
-+ (IplImage *)createBGRAIplImageFromUIImage:(UIImage *)image;
-
-// these DO NOT copy the underlying data (for speed), do don't deallocate
-// the underlying data (usually the IplImage itself) until you're done with
-// the UIImage!
-//------------------------------------------------------------------------------
-+ (UIImage *)UIImageFromBGRIplImage:(IplImage *)bgrImage;
-+ (UIImage *)UIImageFromRGBIplImage:(IplImage *)bgrImage;
-+ (UIImage *)UIImageFromBGRAIplImage:(IplImage *)bgraImage;
-+ (UIImage *)UIImageFromGRAYIplImage:(IplImage *)grayImage;
 
 @end
 

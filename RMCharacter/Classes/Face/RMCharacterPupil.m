@@ -4,7 +4,11 @@
 //
 
 #import "RMCharacterPupil.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_PUPIL_SIZE  29.0

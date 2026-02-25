@@ -6,7 +6,11 @@
 #import "RMMotionDetectionModule.h"
 #import "RMVision_Internal.h"
 #import "RMMotionTriggeredColorTrainingModule.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 #import <GPUImage/GPUImageMotionDetector.h>
 
 using namespace cv;

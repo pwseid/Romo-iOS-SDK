@@ -7,8 +7,16 @@
 #import "RMCoreDriveController.h"
 #import "RMCoreMovingAverage.h"
 #import "RMCoreControllerPID.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
+#if SWIFT_PACKAGE
+#import "RMCircleMath.h"
+#else
 #import <Romo/RMCircleMath.h>
+#endif
 #import "RMCoreMotor_Internal.h"
 
 @interface RMCoreDifferentialDrive ()

@@ -11,12 +11,6 @@
 
 NSString *const RMPictureModuleDidTakePictureNotification = @"RMPictureModuleDidTakePictureNotification";
 
-@interface RMPictureModule ()
-
-@property (nonatomic, strong) AVCaptureStillImageOutput *captureImageOutput;
-
-@end
-
 @implementation RMPictureModule
 
 -(id)initWithVision:(RMVision *)core

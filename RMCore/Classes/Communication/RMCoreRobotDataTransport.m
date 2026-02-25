@@ -7,7 +7,11 @@
 #import <libkern/OSAtomic.h>
 #import "RMProgrammingProtocol.h"
 #import "STK500Programmer.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 #import "RMCoreRobotCommunicationOld.h"
 
 #ifdef DEBUG_CONNECTION

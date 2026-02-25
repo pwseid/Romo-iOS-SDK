@@ -9,7 +9,11 @@
 #import "RMCoreRobot_Internal.h"
 #import "RMCoreRobotCommunication.h"
 #import "RMCoreLeakyIntegrator.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 
 @interface RMCoreMotor ()
 

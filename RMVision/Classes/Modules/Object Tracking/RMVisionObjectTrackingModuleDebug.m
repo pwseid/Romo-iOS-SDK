@@ -145,15 +145,13 @@
 {
     RMVisionTrainingData *trainingData = [self.module copyOfTrainingData];
     
-    // Create encoders
-    NSMutableData *encodeData = [[NSMutableData alloc] init];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:encodeData];
-    
-    // Encode
-    [trainingData encodeWithCoder:archiver];
-    [archiver finishEncoding];
-    
-    
+    NSError *archiveError = nil;
+    NSData *encodeData = [NSKeyedArchiver archivedDataWithRootObject:trainingData requiringSecureCoding:NO error:&archiveError];
+    if (!encodeData || archiveError) {
+        NSLog(@"Failed to encode training data: %@", archiveError.localizedDescription);
+        return NO;
+    }
+
     // Save to the file system
     NSString *path = [self.saveToFolder stringByAppendingString:@"/"];
     path = [path stringByAppendingString:kTrainingData];

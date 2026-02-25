@@ -7,12 +7,21 @@
 //
 
 #import "RMVisualStasisDetectionModule.h"
+#if SWIFT_PACKAGE
+#import <GPUImage/GPUImageGaussianBlurFilter.h>
+#import <GPUImage/GPUImageBuffer.h>
+#import <GPUImage/GPUImageAverageColor.h>
+#import <GPUImage/GPUImageTwoInputFilter.h>
+#import <GPUImage/GPUImageRawDataInput.h>
+#import "RMMath.h"
+#else
 #import <GPUImage/GPUImageGaussianBlurFilter.h>
 #import <GPUImage/GPUImageBuffer.h>
 #import <GPUImage/GPUImageAverageColor.h>
 #import <GPUImage/GPUImageTwoInputFilter.h>
 #import <GPUImage/GPUImageRawDataInput.h>
 #import <Romo/RMMath.h>
+#endif
 
 #ifdef VISUAL_STASIS_DEBUG
 #import "DDLog.h"

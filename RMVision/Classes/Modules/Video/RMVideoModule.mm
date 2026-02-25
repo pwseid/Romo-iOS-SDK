@@ -78,7 +78,7 @@ static const int kAVEncoderBitRate = 64000;
         // Initialize the video writer input
         NSDictionary *outputSettings = @{AVVideoWidthKey    : [NSNumber numberWithInt:core.width],
                                          AVVideoHeightKey   : [NSNumber numberWithInt:core.height],
-                                         AVVideoCodecKey    : AVVideoCodecH264};
+                                         AVVideoCodecKey    : AVVideoCodecTypeH264};
         
         _videoWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
                                                                outputSettings:outputSettings];

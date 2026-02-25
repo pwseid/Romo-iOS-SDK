@@ -6,8 +6,16 @@
 //  Copyright (c) 2013 Romotive. All rights reserved.
 
 #import "RMCoreLeakyIntegrator.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
+#if SWIFT_PACKAGE
+#import "RMDispatchTimer.h"
+#else
 #import <Romo/RMDispatchTimer.h>
+#endif
 
 #pragma mark - "private interface"
 

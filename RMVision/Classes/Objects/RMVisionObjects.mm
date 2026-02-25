@@ -320,7 +320,8 @@ static const int kPositiveResponseLabel = 2;
         
         NSUInteger rows = arc4random_uniform(1000) + 1;
         NSUInteger cols = arc4random_uniform(1000) + 1;
-        NSUInteger depth = arc4random_uniform(CV_USRTYPE1);
+        // CV_USRTYPE1 was dropped in OpenCV 4.0, use CV_64F (highest valid depth) instead
+        NSUInteger depth = arc4random_uniform((uint32_t)CV_64F);
         
         _trainingData = cv::Mat((int)rows, (int)cols, CV_MAKETYPE(depth, 1));
         _labels = cv::Mat((int)rows, 1, CV_32FC1);

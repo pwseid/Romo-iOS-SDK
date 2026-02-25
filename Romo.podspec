@@ -36,14 +36,9 @@ Pod::Spec.new do |spec|
     sp.dependency 'CocoaLumberjack'
     sp.dependency 'GPUImage'
     # spec.dependency 'NMSSH', '>=2.2.8'
-    sp.dependency 'OpenCV', '~> 2.0'
+    sp.dependency 'OpenCV', '~> 4.0'
   end
 
   spec.default_subspec = "RMCore"
 
-  # Fix for "building for iOS Simulator, but linking in object file built for iOS" when doing pod trunk push
-  spec.pod_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-  }
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end

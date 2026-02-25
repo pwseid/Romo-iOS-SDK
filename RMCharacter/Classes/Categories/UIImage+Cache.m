@@ -3,8 +3,16 @@
 //  RMCharacter
 //
 
+#if SWIFT_PACKAGE
+#import "UIImage+Cache.h"
+#else
 #import <Romo/UIImage+Cache.h>
+#endif
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/UIDevice+Romo.h>
+#endif
 
 
 @implementation UIImage (Cache)

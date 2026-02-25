@@ -4,7 +4,11 @@
 //
 
 #import "RMCharacterColorFill.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMShared.h>
+#endif
 
 /** Universally scales time (thus, speed) of the system */
 static const float timeWarpFactor = 30.0;

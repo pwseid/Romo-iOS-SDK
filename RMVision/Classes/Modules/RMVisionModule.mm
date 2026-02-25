@@ -7,7 +7,11 @@
 //
 
 #import "RMVisionModule.h"
+#if SWIFT_PACKAGE
+#import "UIDevice+Romo.h"
+#else
 #import <Romo/UIDevice+Romo.h>
+#endif
 
 @interface RMVisionModule ()
 
@@ -73,7 +77,7 @@
 {
     // Shrink video frame
     cv::Mat resizedMat;
-    cv::resize(mat, resizedMat, cv::Size(), self.scaleFactor, self.scaleFactor, CV_INTER_LINEAR);
+    cv::resize(mat, resizedMat, cv::Size(), self.scaleFactor, self.scaleFactor, cv::INTER_LINEAR);
     rect.size.width *= self.scaleFactor;
     rect.size.height *= self.scaleFactor;
     

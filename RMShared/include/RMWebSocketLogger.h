@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import <CocoaLumberjack/DDLog.h>
 
 @interface RMWebSocketLogger : NSObject <DDLogger>
 

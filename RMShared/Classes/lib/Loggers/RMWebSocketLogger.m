@@ -7,7 +7,11 @@
 #import "RMWebSocket.h"
 #import "UIApplication+Environment.h"
 #import "UIDevice+UDID.h"
+#if SWIFT_PACKAGE
+static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
+#else
 #import "RMShared-Prefix.pch"
+#endif
 
 @interface RMWebSocketLogger () <RMWebSocketDelegate>
 
@@ -18,7 +22,9 @@
 
 @implementation RMWebSocketLogger
 
+#if !SWIFT_PACKAGE
 DDLOG_ENABLE_DYNAMIC_LEVELS
+#endif
 
 + (id)sharedInstance
 {

@@ -5,7 +5,11 @@
 
 #import <CoreMotion/CMAttitude.h>
 #import "RMCorePlatformMotion.h"
+#if SWIFT_PACKAGE
+#import "RMQuaternion.h"
+#else
 #import <Romo/RMQuaternion.h>
+#endif
 
 @interface RMCorePlatformMotion()
 

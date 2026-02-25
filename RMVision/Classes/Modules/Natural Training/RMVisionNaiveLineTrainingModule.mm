@@ -9,7 +9,11 @@
 #import "RMVisionNaiveLineTrainingModule.h"
 #import "UIImage+OpenCV.h"
 #import "RMOpenCVUtils.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMShared.h>
+#endif
 
 static const float kDefaultFloodFillTolerance = 1.0/UCHAR_MAX;
 static const float kMinFloodFillFraction = 0.02;
@@ -56,10 +60,10 @@ static const float kMaxFloodFillFraction = 0.86;
 {
     cv::Mat mat = [UIImage cvMatWithImage:self.inputImage];
 
-    cv::resize(mat, mat, cv::Size(), self.scaleFactor, self.scaleFactor, CV_INTER_LINEAR);
+    cv::resize(mat, mat, cv::Size(), self.scaleFactor, self.scaleFactor, cv::INTER_LINEAR);
 
     // Floodfill requires 3 channel images
-    cv::cvtColor(mat, mat, CV_BGRA2BGR);
+    cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
     
     // Convert normalized Romo coordinates to image coordinates
     // Minus 1 on the rows and cols since we are addressing starting from 0 and not 1
@@ -120,7 +124,7 @@ static const float kMaxFloodFillFraction = 0.86;
         return;
     }
     
-    cv::threshold(subMask, subMask, 0.1, UCHAR_MAX, CV_THRESH_BINARY);
+    cv::threshold(subMask, subMask, 0.1, UCHAR_MAX, cv::THRESH_BINARY);
     
     // Extract training data
     cv::Mat positivePixelVector;
@@ -141,7 +145,7 @@ static const float kMaxFloodFillFraction = 0.86;
         
         // Build the negative image vector
         cv::Mat inverseSubMask;
-        cv::threshold(subMask, inverseSubMask, 0.1, UCHAR_MAX, CV_THRESH_BINARY_INV);
+        cv::threshold(subMask, inverseSubMask, 0.1, UCHAR_MAX, cv::THRESH_BINARY_INV);
         
         
         int erosion_size = 5;

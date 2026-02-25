@@ -4,7 +4,11 @@
 //
 
 #import "RMCoreInertialStasis.h"
+#if SWIFT_PACKAGE
+#import "RMDispatchTimer.h"
+#else
 #import <Romo/RMDispatchTimer.h>
+#endif
 
 @interface RMCoreInertialStasis()
 

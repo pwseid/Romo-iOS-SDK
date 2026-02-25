@@ -7,8 +7,16 @@
 #import "RMCharacterFace.h"
 #import "RMCharacterVoice.h"
 #import "RMCharacterPNS.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
+#if SWIFT_PACKAGE
+#import "UIImage+Cache.h"
+#else
 #import <Romo/UIImage+Cache.h>
+#endif
 
 #define NUM_EMOTIONS    10
 #define NUM_EXPRESSIONS 32

@@ -4,7 +4,11 @@
 //
 
 #import "RMCharacterFaceEmotion.h"
+#if SWIFT_PACKAGE
+#import "UIImage+Cache.h"
+#else
 #import <Romo/UIImage+Cache.h>
+#endif
 #import "RMCharacterEye.h"
 #import "RMCharacterVoice.h"
 

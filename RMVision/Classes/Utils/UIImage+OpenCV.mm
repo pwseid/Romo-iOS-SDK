@@ -19,9 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #import "UIImage+OpenCV.h"
 
-static CGColorSpaceRef colorSpace = NULL;
-static CGColorSpaceRef gryColorSpace = NULL;
-
 // Category Implementation
 //==============================================================================
 @implementation UIImage (UIImage_OpenCV)
@@ -83,7 +80,7 @@ static CGColorSpaceRef gryColorSpace = NULL;
             bitmapInfo = (kCGBitmapAlphaInfoMask & kCGImageAlphaNone) | (kCGBitmapByteOrderMask & kCGBitmapByteOrder32Big);
             break;
         case 3:
-            cv::cvtColor(other, cvMat, CV_BGR2BGRA);
+            cv::cvtColor(other, cvMat, cv::COLOR_BGR2BGRA);
             colorSpace = CGColorSpaceCreateDeviceRGB();
             bitmapInfo = (kCGBitmapAlphaInfoMask & kCGImageAlphaFirst) | (kCGBitmapByteOrderMask & kCGBitmapByteOrder32Little);
             break;
@@ -157,9 +154,9 @@ static CGColorSpaceRef gryColorSpace = NULL;
     
     // Convert the grayscale image to BGRA since we have a convention that all cv::Mats are BGRA
     if (colorSpaceModel == kCGColorSpaceModelMonochrome) {
-        cv::cvtColor(cvMat, cvMat, CV_GRAY2BGRA);
+        cv::cvtColor(cvMat, cvMat, cv::COLOR_GRAY2BGRA);
     } else if (colorSpaceModel == kCGColorSpaceModelRGB && [self isAlphaLast:bitmapInfo] && (byteOrderInfo == kCGBitmapByteOrderDefault || byteOrderInfo == kCGBitmapByteOrder32Big)) {
-        cv::cvtColor(cvMat, cvMat, CV_RGBA2BGRA);
+        cv::cvtColor(cvMat, cvMat, cv::COLOR_RGBA2BGRA);
     } else if (colorSpaceModel == kCGColorSpaceModelRGB && ![self isAlphaLast:bitmapInfo] && byteOrderInfo == kCGBitmapByteOrder32Little) {
         // Pixel is stored as ARGB with kCGBitmapByteOrder32Little so whenwe read out the bytes we get BGRA
     } else {
@@ -178,110 +175,6 @@ static CGColorSpaceRef gryColorSpace = NULL;
 {
     CGBitmapInfo alphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
     return (alphaInfo == kCGImageAlphaPremultipliedLast || alphaInfo == kCGImageAlphaLast || alphaInfo == kCGImageAlphaNoneSkipLast);
-}
-
-#pragma mark - IplImage Utilities
-//==============================================================================
-+ (IplImage *)createGRAYIplImageFromUIImage:(UIImage *)image {
-    // TODO: remove unnecessary copy
-	IplImage *bgraImage = [[self class] createBGRAIplImageFromUIImage:image];
-    IplImage *gryImage = cvCreateImage(cvGetSize(bgraImage), IPL_DEPTH_8U, 1);
-    cvCvtColor(bgraImage, gryImage, CV_RGBA2GRAY);
-    cvReleaseImage(&bgraImage);
-    return gryImage;
-}
-
-+ (IplImage *)createBGRAIplImageFromUIImage:(UIImage *)image {
-	CGImageRef imageRef = image.CGImage;
-	
-	if (colorSpace == NULL) {
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        if (colorSpace == NULL) {
-            // TODO: Handle the error appropriately.
-            NSLog(@"colorSpace equal to NULL!");
-            return nil;
-        }
-    }
-	IplImage *iplimage = cvCreateImage(cvSize(image.size.width, image.size.height), IPL_DEPTH_8U, 4);
-	CGContextRef contextRef = CGBitmapContextCreate(iplimage->imageData, iplimage->width, iplimage->height,
-													iplimage->depth, iplimage->widthStep,
-													colorSpace, kCGImageAlphaPremultipliedLast|kCGBitmapByteOrderDefault);
-	CGContextDrawImage(contextRef, CGRectMake(0, 0, image.size.width, image.size.height), imageRef);
-	CGContextRelease(contextRef);
-	
-	IplImage *ret = cvCreateImage(cvGetSize(iplimage), IPL_DEPTH_8U, 4);
-	cvCvtColor(iplimage, ret, CV_RGBA2BGRA);
-	cvReleaseImage(&iplimage);
-	return ret;
-}
-
-+(UIImage *)UIImageFromIplImage:(IplImage *)image bitmapInfo:(CGBitmapInfo)bitmapInfo
-{
-    if (colorSpace == NULL) {
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        if (colorSpace == NULL) {
-            // TODO: Handle the error appropriately.
-            return nil;
-        }
-    }
-    
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL,
-                                                              image->imageData,
-                                                              image->imageSize,
-                                                              NULL);
-    
-	CGImageRef imageRef = CGImageCreate(image->width, image->height,
-										image->depth, image->depth * image->nChannels, image->widthStep,
-										colorSpace, bitmapInfo,
-										provider, NULL, false, kCGRenderingIntentDefault);
-	UIImage *ret = [UIImage imageWithCGImage:imageRef];
-	CGImageRelease(imageRef);
-	CGDataProviderRelease(provider);
-	return ret;
-}
-
-//==============================================================================
-+ (UIImage *)UIImageFromRGBIplImage:(IplImage *)rgbImage;
-{
-    CGBitmapInfo bitmapInfo = kCGImageAlphaNone|kCGBitmapByteOrderDefault;
-    return [[self class] UIImageFromIplImage:rgbImage bitmapInfo:bitmapInfo];
-}
-
-+ (UIImage *)UIImageFromBGRIplImage:(IplImage *)bgrImage
-{
-    CGBitmapInfo bitmapInfo = kCGImageAlphaNone|kCGBitmapByteOrder32Little;
-    return [[self class] UIImageFromIplImage:bgrImage bitmapInfo:bitmapInfo];
-}
-
-+ (UIImage *)UIImageFromBGRAIplImage:(IplImage *)bgraImage
-{
-    CGBitmapInfo bitmapInfo = kCGImageAlphaNoneSkipFirst|kCGBitmapByteOrder32Little;
-    return [[self class] UIImageFromIplImage:bgraImage bitmapInfo:bitmapInfo];
-}
-
-+ (UIImage *)UIImageFromGRAYIplImage:(IplImage *)image
-{
-	if (gryColorSpace == NULL) {
-        gryColorSpace = CGColorSpaceCreateDeviceGray();
-        if (gryColorSpace == NULL) {
-            //TODO: Handle the error appropriately.
-            return nil;
-        }
-    }
-    
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL,
-                                                              image->imageData,
-                                                              image->imageSize,
-                                                              NULL);
-    
-	CGImageRef imageRef = CGImageCreate(image->width, image->height,
-										image->depth, image->depth * image->nChannels, image->widthStep,
-										gryColorSpace, kCGImageAlphaNone,
-										provider, NULL, false, kCGRenderingIntentDefault);
-	UIImage *ret = [UIImage imageWithCGImage:imageRef];
-	CGImageRelease(imageRef);
-	CGDataProviderRelease(provider);
-	return ret;
 }
 
 @end

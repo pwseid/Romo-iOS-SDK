@@ -8,7 +8,12 @@
 
 #import "RMWebSocket.h"
 #import <SocketRocket/SRWebSocket.h>
-#import "RMShared-Prefix.pch"
+#if SWIFT_PACKAGE
+@import CocoaLumberjack;
+#else
+#import <CocoaLumberjack/DDLog.h>
+#endif
+static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
 
 /**
  * The values of the following enum are important. They match up directly with
@@ -57,7 +62,9 @@ typedef enum RMWebSocketSocketIOCommand {
 
 @implementation RMWebSocket
 
+#if !SWIFT_PACKAGE
 DDLOG_ENABLE_DYNAMIC_LEVELS
+#endif
 
 #pragma mark - Object Lifecycle
 
@@ -181,7 +188,11 @@ DDLOG_ENABLE_DYNAMIC_LEVELS
 //    DDLogVerbose(@"Sending message: %@", message);
 
     if (self.socket.readyState == SR_OPEN) {
-        [self.socket send:message];
+        NSError *sendError = nil;
+        [self.socket sendString:message error:&sendError];
+        if (sendError) {
+            DDLogWarn(@"WebSocket send failed: %@", sendError.localizedDescription);
+        }
     }
 }
 

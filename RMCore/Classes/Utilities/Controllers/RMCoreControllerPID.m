@@ -7,7 +7,11 @@
 //
 
 #import "RMCoreControllerPID.h"
+#if SWIFT_PACKAGE
+#import "RMDispatchTimer.h"
+#else
 #import <Romo/RMDispatchTimer.h>
+#endif
 
 #pragma mark - Macros/Constants
 

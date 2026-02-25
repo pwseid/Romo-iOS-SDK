@@ -10,7 +10,11 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "RMImageUtils.h"
+#if SWIFT_PACKAGE
+#import "UIView+Additions.h"
+#else
 #import <Romo/UIView+Additions.h>
+#endif
 #import "RMBorderView.h"
 
 // Some colors to use!

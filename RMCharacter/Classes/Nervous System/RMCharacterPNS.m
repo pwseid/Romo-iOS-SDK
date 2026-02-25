@@ -4,7 +4,11 @@
 //
 
 #import "RMCharacterPNS.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 
 #define doubleBlinkPercentage 28.0
 

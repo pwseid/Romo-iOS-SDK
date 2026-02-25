@@ -156,10 +156,10 @@ void runSynchronouslyOnGPUImageQueue(void (^block)(void))
     }
     
     int numberOfPixels = outputMat.rows*outputMat.cols;
-    cv::cvtColor(outputMat, outputMat, CV_BGRA2BGR);
+    cv::cvtColor(outputMat, outputMat, cv::COLOR_BGRA2BGR);
     
     Mat grayImage;
-    cv::cvtColor(outputMat, grayImage, CV_BGR2GRAY);
+    cv::cvtColor(outputMat, grayImage, cv::COLOR_BGR2GRAY);
     
     size_t validPixelCount = countNonZero(grayImage);
     float percentPixelsValid = (float)validPixelCount/numberOfPixels;
@@ -284,7 +284,7 @@ void runSynchronouslyOnGPUImageQueue(void (^block)(void))
         dispatch_async(self.vision.videoOutput.sampleBufferCallbackQueue, ^{
             if (!self.lastFrame.empty()) {
                 cv::Mat lastFrameBGR;
-                cvtColor(self.lastFrame, lastFrameBGR, CV_BGRA2BGR);
+                cvtColor(self.lastFrame, lastFrameBGR, cv::COLOR_BGRA2BGR);
                 
                 if (self.negativeTrainingData.empty()) {
                     self.negativeTrainingData = lastFrameBGR;

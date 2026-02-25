@@ -5,7 +5,7 @@
 
 #import "RMLogFormatter.h"
 #import "UIApplication+Environment.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#import <CocoaLumberjack/DDLog.h>
 
 #define XCODE_COLORS_ESCAPE @"\033["
 

@@ -9,14 +9,19 @@
 #import "RMVisionObjectTrackingModule.h"
 #import "UIImage+OpenCV.h"
 #import "RMVision.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMShared.h>
+#endif
 #import "GPUImageNormalBayesFilter.h"
 #import <GPUImage/GPUImageRawDataOutput.h>
-#import <GPUImage/GPUImageBrightnessFilter.h>
 #import <GPUImage/GPUImageBrightnessFilter.h>
 #import <GPUImage/GPUImageAverageColor.h>
 #import "RMNormalBayes.h"
 #import "RMOpenCVUtils.h"
+
+#include <random>
 
 #define NUM_FEATURES 3
 #define RMLINE_POSITIVE_CLASS 2
@@ -236,7 +241,7 @@ using namespace cv;
 {
     std::vector<std::vector<cv::Point> > contours;
     std::vector<Vec4i> hierarchy;
-    findContours( image, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    findContours( image, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
     std::vector<double> contourSize;
     std::vector<float> contourDistance;
@@ -287,7 +292,7 @@ using namespace cv;
     image = Mat::zeros(image.size(), image.type());
     
     if (bestContourIndex >= 0) {
-        drawContours(image, contours, bestContourIndex, Scalar(UCHAR_MAX), CV_FILLED);
+        drawContours(image, contours, bestContourIndex, Scalar(UCHAR_MAX), cv::FILLED);
     }
     
     return contours;
@@ -415,7 +420,7 @@ using namespace cv;
 //------------------------------------------------------------------------------
 - (void)processOutputMat:(cv::Mat)outputMat
 {
-    cv::cvtColor(outputMat, outputMat, CV_BGRA2GRAY);
+    cv::cvtColor(outputMat, outputMat, cv::COLOR_BGRA2GRAY);
     cv::threshold(outputMat, outputMat, 1, UCHAR_MAX, THRESH_BINARY);
     
     // If a ROI is set, set everything outside of the ROI to zero
@@ -455,7 +460,7 @@ using namespace cv;
     // Visualization
     if (self.generateVisualization && [self.delegate respondsToSelector:@selector(showDebugImage:)])
     {
-        cvtColor(outputMat, outputMat, CV_GRAY2BGRA);
+        cvtColor(outputMat, outputMat, cv::COLOR_GRAY2BGRA);
         
         UIImageOrientation debugOrientation = UIImageOrientationUp;
         if (self.vision.camera == RMCamera_Front) {
@@ -538,7 +543,9 @@ using namespace cv;
         randomizedIndices.push_back(i);
     }
     
-    std::random_shuffle(randomizedIndices.begin(), randomizedIndices.end());
+    std::random_device randomDevice;
+    std::mt19937 randomGenerator(randomDevice());
+    std::shuffle(randomizedIndices.begin(), randomizedIndices.end(), randomGenerator);
     
     for (int i = 0; i < data.labels.rows; i++)
     {
@@ -573,7 +580,7 @@ using namespace cv;
     
     // Pull data out of the NSArray
     Mat trainingImage = [ UIImage cvMatWithImage:data[0] ];
-    cvtColor(trainingImage, trainingImage, CV_BGRA2BGR);
+    cvtColor(trainingImage, trainingImage, cv::COLOR_BGRA2BGR);
     
     Mat annotationsImage = [ UIImage cvMatWithImage:data[1] ];
     NSArray *labelArray = data[2];
@@ -619,59 +626,34 @@ using namespace cv;
 //------------------------------------------------------------------------------
 - (void)populateModel:(NormalBayesModel *)model fromClassifier:(RMNormalBayes *)classifier
 {
-    // Store covariance determinates
-    
-    cv::Mat logDetCovar = cv::Mat(classifier->getC());
-    //    model.logDetCovar = (GPUVector3){exp(logDetCovar.at<double>(0)), exp(logDetCovar.at<double>(1)), 0.0};
-    model.logDetCovar = (GPUVector3){(float)logDetCovar.at<double>(0), (float)logDetCovar.at<double>(1), 0.0};
-    
-    
-    // Store averages
-    //    CvMat** avg = classifier->getAvg();
-    //    model.muA = (GPUVector3){avg[0]->data.fl[0], avg[0]->data.fl[1], avg[0]->data.fl[2]};
-    //    model.muB = (GPUVector3){avg[1]->data.fl[0], avg[1]->data.fl[1], avg[1]->data.fl[2]};
-    
-    cv::Mat muA = cv::Mat(classifier->getAvg()[0]);
+    // Log-determinants (index 0 = label 1 = negative, index 1 = label 2 = positive)
+    model.logDetCovar = (GPUVector3){
+        (float)classifier->getLogDetCovariance(0),
+        (float)classifier->getLogDetCovariance(1),
+        0.0
+    };
+
+    // Means
+    cv::Mat muA = classifier->getMu(0);
     model.muA = (GPUVector3){(float)muA.at<double>(0), (float)muA.at<double>(1), (float)muA.at<double>(2)};
-    
-    cv::Mat muB = cv::Mat(classifier->getAvg()[1]);
+
+    cv::Mat muB = classifier->getMu(1);
     model.muB = (GPUVector3){(float)muB.at<double>(0), (float)muB.at<double>(1), (float)muB.at<double>(2)};
-    
-    // Store covariances
-    // A
-    cv::Mat inv_w = cv::Mat(classifier->getInvEigenValues()[0]);
-    cv::Mat u = cv::Mat(classifier->getCovRotateMats()[0]);
-    cv::Mat w = 1.0/inv_w;
-    cv::Mat covar = u.t()*cv::Mat::diag(w)*u;
-    
-    cv::Mat inv_covar = covar.inv();
+
+    // Inverse covariances
+    cv::Mat inv_covar = classifier->getInvCovariance(0);
     model.invCovarianceA = (GPUMatrix3x3){
         {(float)inv_covar.at<double>(0,0), (float)inv_covar.at<double>(0,1), (float)inv_covar.at<double>(0,2)},
         {(float)inv_covar.at<double>(1,0), (float)inv_covar.at<double>(1,1), (float)inv_covar.at<double>(1,2)},
         {(float)inv_covar.at<double>(2,0), (float)inv_covar.at<double>(2,1), (float)inv_covar.at<double>(2,2)}
     };
-    
-    // B
-    inv_w = cv::Mat(classifier->getInvEigenValues()[1]);
-    u = cv::Mat(classifier->getCovRotateMats()[1]);
-    w = 1.0/inv_w;
-    covar = u.t()*cv::Mat::diag(w)*u;
-    
-    inv_covar = covar.inv();
+
+    inv_covar = classifier->getInvCovariance(1);
     model.invCovarianceB = (GPUMatrix3x3){
         {(float)inv_covar.at<double>(0,0), (float)inv_covar.at<double>(0,1), (float)inv_covar.at<double>(0,2)},
         {(float)inv_covar.at<double>(1,0), (float)inv_covar.at<double>(1,1), (float)inv_covar.at<double>(1,2)},
         {(float)inv_covar.at<double>(2,0), (float)inv_covar.at<double>(2,1), (float)inv_covar.at<double>(2,2)}
     };
-    
-#ifdef DEBUG
-//    std::cout << logDetCovar << std::endl;
-//    std::cout << muA << std::endl;
-//    std::cout << muB << std::endl;
-//    std::cout << covar << std::endl;
-//    std::cout << covar << std::endl;
-#endif
-    
 }
 
 //------------------------------------------------------------------------------
@@ -887,7 +869,7 @@ using namespace cv;
         UIImage *rawImage = [[UIImage alloc]initWithCGImage:cgImage];
         CGImageRelease(cgImage);
         cv::Mat rawMat = [UIImage cvMatWithImage:rawImage];
-        cv::cvtColor(rawMat, rawMat, CV_BGRA2BGR);
+        cv::cvtColor(rawMat, rawMat, cv::COLOR_BGRA2BGR);
 
         cv::threshold(mask, mask, 127, GC_FGD, THRESH_BINARY);
         

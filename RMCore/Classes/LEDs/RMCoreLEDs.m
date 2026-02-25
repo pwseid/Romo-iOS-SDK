@@ -7,7 +7,11 @@
 #import "RMCoreRobotCommunication.h"
 #import "RMCoreRobot.h"
 #import "RMCoreRobot_Internal.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 
 @implementation RMCoreLEDs
 

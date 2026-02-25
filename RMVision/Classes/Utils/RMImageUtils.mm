@@ -17,7 +17,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #import "RMImageUtils.h"
+#ifdef __OBJC__
+#undef YES
+#undef NO
+#endif
 #import <opencv2/opencv.hpp>
+#ifdef __OBJC__
+#define YES ((BOOL)1)
+#define NO  ((BOOL)0)
+#endif
 
 #define CLAMP(min, val, max) (MAX(min, MIN(val, max)))
 
@@ -32,36 +40,34 @@ static UIImage *pic;
 
 + (void) pathToImageView:(NSString *)picPath withBlock:(void (^)(UIImage *))block
 {
-    NSOperationQueue *picQueue = [[NSOperationQueue alloc] init];
-    
     NSURL *picUrl = [NSURL URLWithString:picPath];
-    
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:picUrl
-                                                              cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                          timeoutInterval:10.0f];
-    
-    [NSURLConnection sendAsynchronousRequest:urlRequest
-                                       queue:picQueue
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data,
-                                               NSError *error)
-     {
-         if (error) {
-             NSLog(@"Error while getting profile picture: %@", error);
-             return;
-         }
-         
-         if (!data) {
-             NSLog(@"No data returned when getting profile picture");
-             return;
-         }
 
-         pic = [UIImage imageWithData:data];
-         
-         dispatch_sync(dispatch_get_main_queue(), ^{
-             block(pic);
-         });
-     }];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:picUrl
+                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                            timeoutInterval:10.0f];
+
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest
+                                                                 completionHandler:^(NSData *data,
+                                                                                     NSURLResponse *response,
+                                                                                     NSError *error)
+    {
+        if (error) {
+            NSLog(@"Error while getting profile picture: %@", error);
+            return;
+        }
+
+        if (!data) {
+            NSLog(@"No data returned when getting profile picture");
+            return;
+        }
+
+        pic = [UIImage imageWithData:data];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(pic);
+        });
+    }];
+    [task resume];
 }
 
 // Save a cv::Mat image to file as a Bitmap in the Documents-Directory

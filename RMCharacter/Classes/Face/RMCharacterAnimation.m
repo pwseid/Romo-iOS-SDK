@@ -4,8 +4,16 @@
 
 #import "RMCharacterAnimation.h"
 #import "RMCharacter.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
+#if SWIFT_PACKAGE
+#import "UIImage+Cache.h"
+#else
 #import <Romo/UIImage+Cache.h>
+#endif
 
 typedef void (^BoolBlock)(BOOL);
 

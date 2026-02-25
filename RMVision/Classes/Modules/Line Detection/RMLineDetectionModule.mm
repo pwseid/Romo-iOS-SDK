@@ -20,8 +20,12 @@
 #import "RMImageUtils.h"
 #import "RMVisionDebugBroker.h"
 #import "RMVisionObjects.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMShared.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
+#endif
+#import <CocoaLumberjack/DDLog.h>
 
 #ifdef DEBUG_LINE_DETECT
 #define LOG(...) DDLogWarn(__VA_ARGS__)

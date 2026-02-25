@@ -37,7 +37,7 @@ NSString * const kEyeCascadePath            = @"haarcascade_eye";
 const float kDefaultFaceTimeout = 0.8;
 
 // Options for haar cascades
-const int kHaarOptions =  CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH;
+const int kHaarOptions =  cv::CASCADE_FIND_BIGGEST_OBJECT | cv::CASCADE_DO_ROUGH_SEARCH;
 const uint32_t kFaceSwitchTimeout = 4;
 
 // Scale factor for shrinking image
@@ -101,16 +101,14 @@ const float kAVCaptureRollOffset = 270.0;
         // Try to set up AVFoundation detection (returns NO if not available)
         _usesAVFoundation = [self setupAVFoundationFaceDetection];
         if (!_usesAVFoundation) {
-            // Load the Haar cascades
-            NSBundle* bundle = [NSBundle bundleForClass:self.classForCoder];
-            NSString *frameworkBundlePath = [[[bundle resourceURL] URLByAppendingPathComponent:@"RMVision.bundle"] path];
-            NSBundle* visionBundle = [NSBundle bundleWithPath:frameworkBundlePath];
-            
+            // Load the Haar cascades from the SPM module bundle
+            NSBundle *visionBundle = SWIFTPM_MODULE_BUNDLE;
+
             NSString *frontalFaceCascadePath = [visionBundle pathForResource:kFrontalFaceCascadePath ofType:@"xml"];
             if (!_frontalFaceCascade.load([frontalFaceCascadePath UTF8String])) {
                 NSLog(@"Could not load face cascade: %@", frontalFaceCascadePath);
             }
-            
+
             NSString *profileFaceCascadePath = [visionBundle pathForResource:kProfileFaceCascadePath ofType:@"xml"];
             if (!_profileFaceCascade.load([profileFaceCascadePath UTF8String])) {
                 NSLog(@"Could not load face cascade: %@", profileFaceCascadePath);
@@ -198,7 +196,7 @@ const float kAVCaptureRollOffset = 270.0;
     
     // Convert to greyscale
 //    if (![self.vision isGrayscaleMode]) {
-        cv::cvtColor(localMat, localMat, CV_BGR2GRAY);
+        cv::cvtColor(localMat, localMat, cv::COLOR_BGR2GRAY);
 //    }
 
     if (localMat.type() == CV_8UC1) {
@@ -400,11 +398,9 @@ didOutputMetadataObjects:(NSArray *)metadataObjects
 {
     if (eyeDetectionEnabled != _eyeDetectionEnabled) {
         if (eyeDetectionEnabled) {
-            // Load eye cascades
-            NSBundle* bundle = [NSBundle bundleForClass:self.classForCoder];
-            NSString *frameworkBundlePath = [[[bundle resourceURL] URLByAppendingPathComponent:@"RMVision.bundle"] path];
-            NSBundle* visionBundle = [NSBundle bundleWithPath:frameworkBundlePath];
-            
+            // Load eye cascade from the SPM module bundle
+            NSBundle *visionBundle = SWIFTPM_MODULE_BUNDLE;
+
             NSString *eyeCascadePath = [visionBundle pathForResource:kEyeCascadePath ofType:@"xml"];
             if (!self.eyeCascade.load([eyeCascadePath UTF8String])) {
                 NSLog(@"Could not load cascade: %@", eyeCascadePath);

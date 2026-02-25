@@ -23,7 +23,11 @@
 #import "RMGPUImageExampleModule.h"
 #import "RMPictureModule.h"
 #import "RMVideoModule.h"
+#if SWIFT_PACKAGE
+#import "RMMath.h"
+#else
 #import <Romo/RMMath.h>
+#endif
 
 #import "RMVisionDebugBroker.h"
 
@@ -32,7 +36,11 @@
 #import <GPUImage/GPUImageRawDataInput.h>
 #import "GPUImageRawDataInput+RMAdditions.h"
 
+#if SWIFT_PACKAGE
+#import "UIDevice+Romo.h"
+#else
 #import <Romo/UIDevice+Romo.h>
+#endif
 
 #ifdef VISION_DEBUG
 #define LOG(...) DDLogWarn(__VA_ARGS__)
@@ -285,6 +293,34 @@ NSString *const RMVisionModule_GPUImageExample  = @"GPUImageExample";
     }
 }
 
+- (AVCaptureDevice *)captureDeviceForCamera:(RMCamera)camera
+{
+    AVCaptureDevicePosition position = AVCaptureDevicePositionUnspecified;
+    if (camera == RMCamera_Back) {
+        position = AVCaptureDevicePositionBack;
+    } else if (camera == RMCamera_Front) {
+        position = AVCaptureDevicePositionFront;
+    }
+
+    NSArray<AVCaptureDeviceType> *deviceTypes = @[AVCaptureDeviceTypeBuiltInWideAngleCamera];
+    AVCaptureDeviceDiscoverySession *discovery = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:deviceTypes
+                                                                                                          mediaType:AVMediaTypeVideo
+                                                                                                           position:position];
+    NSArray<AVCaptureDevice *> *devices = discovery.devices;
+    if (devices.count == 0 && position != AVCaptureDevicePositionUnspecified) {
+        discovery = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:deviceTypes
+                                                                          mediaType:AVMediaTypeVideo
+                                                                           position:AVCaptureDevicePositionUnspecified];
+        devices = discovery.devices;
+    }
+
+    if (devices.count > 0) {
+        return devices.firstObject;
+    }
+
+    return [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+}
+
 // Sets up the video capture session for a given camera, quality and grayscale mode
 //
 // camera: -1 for default, 0 for back camera, 1 for front camera
@@ -303,17 +339,10 @@ NSString *const RMVisionModule_GPUImageExample  = @"GPUImageExample";
     NSError *error = nil;
 	
     // Set up AV capture
-    NSArray* devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    
-    if ([devices count] == 0) {
+    self.device = [self captureDeviceForCamera:camera];
+    if (!self.device) {
         NSLog(@"No video capture devices found");
         return;
-    }
-    
-    if (camera >= 0 && camera < [devices count]) {
-        self.device = [devices objectAtIndex:camera];
-    } else {
-        self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     }
     
     // Create the capture session
@@ -522,15 +551,8 @@ NSString *const RMVisionModule_GPUImageExample  = @"GPUImageExample";
         if (self.session) {
             [self.session beginConfiguration];
             
-            NSArray* devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-            
             [self.session removeInput:self.videoInput];
-            
-            if (self.camera >= 0 && self.camera < [devices count]) {
-                self.device = [devices objectAtIndex:camera];
-            } else {
-                self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-            }
+            self.device = [self captureDeviceForCamera:camera];
             
             // Create device input
             NSError *error = nil;
