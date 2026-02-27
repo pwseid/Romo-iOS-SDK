@@ -1,50 +1,49 @@
 module RMVision {
     umbrella header "RMVision.h"
 
-    // All remaining headers are available via #import but are not
-    // compiled as top-level module members.  Many of these import
-    // GPUImage or OpenCV C++ headers which cannot be safely compiled
-    // together under "umbrella .".
+    // Exclude all non-public headers from module compilation.
+    // They remain in include/ so external consumers can #import them,
+    // but they are not processed as module members.
 
-    // --- GPUImage filters ---
-    textual header "GPUImageBrightColorNotchFilter.h"
-    textual header "GPUImageBrightHueSegmentation.h"
-    textual header "GPUImageCustomLookupFilter.h"
-    textual header "GPUImageFilter+RMAdditions.h"
-    textual header "GPUImageMaskToPixelPositionFilter.h"
-    textual header "GPUImageMotionSegmentation.h"
-    textual header "GPUImageNormalBayesFilter.h"
-    textual header "GPUImageRawDataInput+RMAdditions.h"
+    // GPUImage filters
+    exclude header "GPUImageBrightColorNotchFilter.h"
+    exclude header "GPUImageBrightHueSegmentation.h"
+    exclude header "GPUImageCustomLookupFilter.h"
+    exclude header "GPUImageFilter+RMAdditions.h"
+    exclude header "GPUImageMaskToPixelPositionFilter.h"
+    exclude header "GPUImageMotionSegmentation.h"
+    exclude header "GPUImageNormalBayesFilter.h"
+    exclude header "GPUImageRawDataInput+RMAdditions.h"
 
-    // --- Vision modules ---
-    textual header "RMBrightnessMeteringModule.h"
-    textual header "RMEyeDetectionModule.h"
-    textual header "RMFaceDetectionModule.h"
-    textual header "RMFakeVision.h"
-    textual header "RMGPUImageExampleModule.h"
-    textual header "RMLineDetectionModule.h"
-    textual header "RMMotionDetectionModule.h"
-    textual header "RMMotionTriggeredColorTrainingModule.h"
-    textual header "RMThroughRomosEyesModule.h"
-    textual header "RMVisionBrightHueSegmentationModule.h"
-    textual header "RMVisionNaiveLineTrainingModule.h"
-    textual header "RMVisionObjectTrackingModule.h"
-    textual header "RMVisionObjectTrackingModuleDebug.h"
-    textual header "RMVisualStasisDetectionModule.h"
-    textual header "RMPictureModule.h"
-    textual header "RMVideoModule.h"
-    textual header "RMVisionModule.h"
+    // Vision modules
+    exclude header "RMBrightnessMeteringModule.h"
+    exclude header "RMEyeDetectionModule.h"
+    exclude header "RMFaceDetectionModule.h"
+    exclude header "RMFakeVision.h"
+    exclude header "RMGPUImageExampleModule.h"
+    exclude header "RMLineDetectionModule.h"
+    exclude header "RMMotionDetectionModule.h"
+    exclude header "RMMotionTriggeredColorTrainingModule.h"
+    exclude header "RMThroughRomosEyesModule.h"
+    exclude header "RMVisionBrightHueSegmentationModule.h"
+    exclude header "RMVisionNaiveLineTrainingModule.h"
+    exclude header "RMVisionObjectTrackingModule.h"
+    exclude header "RMVisionObjectTrackingModuleDebug.h"
+    exclude header "RMVisualStasisDetectionModule.h"
+    exclude header "RMPictureModule.h"
+    exclude header "RMVideoModule.h"
+    exclude header "RMVisionModule.h"
 
-    // --- Utilities ---
-    textual header "RMBorderView.h"
-    textual header "RMImageUtils.h"
-    textual header "RMNormalBayes.h"
-    textual header "RMOpenCVUtils.h"
-    textual header "RMVisionDebugBroker.h"
-    textual header "UIImage+OpenCV.h"
+    // Utilities
+    exclude header "RMBorderView.h"
+    exclude header "RMImageUtils.h"
+    exclude header "RMNormalBayes.h"
+    exclude header "RMOpenCVUtils.h"
+    exclude header "RMVisionDebugBroker.h"
+    exclude header "UIImage+OpenCV.h"
 
-    // --- Internal ---
-    textual header "RMVision_Internal.h"
+    // Internal
+    exclude header "RMVision_Internal.h"
 
     export *
 }
