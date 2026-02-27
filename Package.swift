@@ -6,9 +6,6 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.iOS(.v12)],
     products: [
-        // Umbrella library — use this to get all modules via #import <Romo/...>
-        .library(name: "Romo", targets: ["RomoUmbrella"]),
-        // Individual modules (if you only need a subset)
         .library(name: "RMShared",    targets: ["RMShared"]),
         .library(name: "RMCore",      targets: ["RMCore"]),
         .library(name: "RMCharacter", targets: ["RMCharacter"]),
@@ -138,20 +135,6 @@ let package = Package(
                 .headerSearchPath("../RMShared/Classes/lib/Categories"),
                 .headerSearchPath("../RMShared/Classes/lib/Loggers"),
             ]
-        ),
-        // Umbrella target: provides a unified "Romo" module so consumers
-        // can use #import <Romo/AnyHeader.h> for headers from any submodule.
-        .target(
-            name: "RomoUmbrella",
-            dependencies: [
-                "RMShared",
-                "RMCore",
-                "RMCharacter",
-                "RMVision",
-            ],
-            path: "Romo",
-            sources: ["src"],
-            publicHeadersPath: "include"
         ),
     ]
 )

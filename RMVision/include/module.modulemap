@@ -1,4 +1,4 @@
-module RMShared {
+module RMVision {
     umbrella "."
     export *
 }
