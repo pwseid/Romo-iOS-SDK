@@ -1,4 +1,7 @@
 module RMVision {
     umbrella "."
+
+    exclude header "RMVision_Internal.h"
+
     export *
 }

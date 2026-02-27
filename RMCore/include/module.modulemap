@@ -1,4 +1,13 @@
 module RMCore {
     umbrella "."
+
+    // Internal headers use class extensions that conflict with
+    // the main interface when compiled together in a module.
+    exclude header "RMCoreRobot_Internal.h"
+    exclude header "RMCoreLEDs_Internal.h"
+    exclude header "RMCoreMotor_Internal.h"
+    exclude header "RMCoreRobotIdentification_Internal.h"
+    exclude header "RMCoreRobotVitals_Internal.h"
+
     export *
 }
