@@ -1,7 +1,50 @@
 module RMVision {
-    umbrella "."
+    umbrella header "RMVision.h"
 
-    exclude header "RMVision_Internal.h"
+    // All remaining headers are available via #import but are not
+    // compiled as top-level module members.  Many of these import
+    // GPUImage or OpenCV C++ headers which cannot be safely compiled
+    // together under "umbrella .".
+
+    // --- GPUImage filters ---
+    textual header "GPUImageBrightColorNotchFilter.h"
+    textual header "GPUImageBrightHueSegmentation.h"
+    textual header "GPUImageCustomLookupFilter.h"
+    textual header "GPUImageFilter+RMAdditions.h"
+    textual header "GPUImageMaskToPixelPositionFilter.h"
+    textual header "GPUImageMotionSegmentation.h"
+    textual header "GPUImageNormalBayesFilter.h"
+    textual header "GPUImageRawDataInput+RMAdditions.h"
+
+    // --- Vision modules ---
+    textual header "RMBrightnessMeteringModule.h"
+    textual header "RMEyeDetectionModule.h"
+    textual header "RMFaceDetectionModule.h"
+    textual header "RMFakeVision.h"
+    textual header "RMGPUImageExampleModule.h"
+    textual header "RMLineDetectionModule.h"
+    textual header "RMMotionDetectionModule.h"
+    textual header "RMMotionTriggeredColorTrainingModule.h"
+    textual header "RMThroughRomosEyesModule.h"
+    textual header "RMVisionBrightHueSegmentationModule.h"
+    textual header "RMVisionNaiveLineTrainingModule.h"
+    textual header "RMVisionObjectTrackingModule.h"
+    textual header "RMVisionObjectTrackingModuleDebug.h"
+    textual header "RMVisualStasisDetectionModule.h"
+    textual header "RMPictureModule.h"
+    textual header "RMVideoModule.h"
+    textual header "RMVisionModule.h"
+
+    // --- Utilities ---
+    textual header "RMBorderView.h"
+    textual header "RMImageUtils.h"
+    textual header "RMNormalBayes.h"
+    textual header "RMOpenCVUtils.h"
+    textual header "RMVisionDebugBroker.h"
+    textual header "UIImage+OpenCV.h"
+
+    // --- Internal ---
+    textual header "RMVision_Internal.h"
 
     export *
 }

@@ -1,13 +1,58 @@
 module RMCore {
-    umbrella "."
+    umbrella header "RMCore.h"
 
-    // Internal headers use class extensions that conflict with
-    // the main interface when compiled together in a module.
-    exclude header "RMCoreRobot_Internal.h"
-    exclude header "RMCoreLEDs_Internal.h"
-    exclude header "RMCoreMotor_Internal.h"
-    exclude header "RMCoreRobotIdentification_Internal.h"
-    exclude header "RMCoreRobotVitals_Internal.h"
+    // All remaining headers are available via #import but are not
+    // compiled as top-level module members.  This avoids redefinition
+    // errors that arise when headers with overlapping types
+    // (e.g. SerialProtocol.h, RMCoreRobotDataTransport.h) are
+    // compiled together under "umbrella .".
+
+    // --- Communication / transport (internal) ---
+    textual header "SerialProtocol.h"
+    textual header "RMCoreRobotDataTransport.h"
+    textual header "RobotCommunicationProtocol.h"
+    textual header "RMCoreRobotCommunication.h"
+    textual header "RMCoreRobotCommunicationOld.h"
+
+    // --- Firmware / programming ---
+    textual header "RMProgrammingProtocol.h"
+    textual header "STK500Programmer.h"
+    textual header "IntelHexImage.h"
+    textual header "IntelHexLine.h"
+    textual header "EEPROMDefs.h"
+    textual header "Romo3Defs.h"
+
+    // --- Type definitions ---
+    textual header "ChargingStates.h"
+    textual header "DeviceModes.h"
+    textual header "LEDModes.h"
+    textual header "MotorCommandTypes.h"
+    textual header "ParameterTypes.h"
+    textual header "InfoTypes.h"
+
+    // --- Motion / sensing ---
+    textual header "RMCoreMotionInterface.h"
+    textual header "RMCoreDeviceMotion.h"
+    textual header "RMCorePlatformMotion.h"
+    textual header "RMCoreRobotMotion.h"
+    textual header "RMCoreBumpDetector.h"
+    textual header "RMCoreInertialStasis.h"
+    textual header "RMCoreStasisDetector.h"
+    textual header "RMCoreLeakyIntegrator.h"
+    textual header "RMCoreMovingAverage.h"
+
+    // --- Drive ---
+    textual header "RMCoreDifferentialDrive.h"
+    textual header "RMCoreDriveController.h"
+    textual header "RMCoreHeadTilt.h"
+    textual header "HolonomicDriveProtocol.h"
+
+    // --- Internal headers (class extensions) ---
+    textual header "RMCoreRobot_Internal.h"
+    textual header "RMCoreLEDs_Internal.h"
+    textual header "RMCoreMotor_Internal.h"
+    textual header "RMCoreRobotIdentification_Internal.h"
+    textual header "RMCoreRobotVitals_Internal.h"
 
     export *
 }

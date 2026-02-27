@@ -1,4 +1,14 @@
 module RMShared {
-    umbrella "."
+    umbrella header "RMShared.h"
+
+    // Headers not imported by RMShared.h but still available via #import
+    textual header "NSString+createSHA512.h"
+    textual header "RMRingBuffer.h"
+    textual header "RMSharedDefines.h"
+    textual header "RMWebSocket.h"
+    textual header "UIDevice+Hardware.h"
+    textual header "UIDevice+Romo.h"
+    textual header "UIView+Additions.h"
+
     export *
 }

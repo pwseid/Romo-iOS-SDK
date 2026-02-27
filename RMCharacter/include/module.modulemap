@@ -1,4 +1,17 @@
 module RMCharacter {
-    umbrella "."
+    umbrella header "RMCharacter.h"
+
+    // Headers not imported by RMCharacter.h but still available via #import
+    textual header "RMCharacterAnimation.h"
+    textual header "RMCharacterColorFill.h"
+    textual header "RMCharacterEye.h"
+    textual header "RMCharacterFace.h"
+    textual header "RMCharacterFaceEmotion.h"
+    textual header "RMCharacterPNS.h"
+    textual header "RMCharacterProtectedView.h"
+    textual header "RMCharacterPupil.h"
+    textual header "RMCharacterVoice.h"
+    textual header "UIImage+Cache.h"
+
     export *
 }
