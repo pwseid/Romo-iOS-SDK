@@ -429,4 +429,3 @@ extern NSString *const RMCharacterDidFinishAudioNotification;
 #import "RMCharacterPupil.h"
 #import "RMCharacterVoice.h"
 #import "UIImage+Cache.h"
-#import "UIImage+Cache.h"

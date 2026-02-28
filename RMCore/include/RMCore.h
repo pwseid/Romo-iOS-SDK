@@ -112,38 +112,38 @@ extern NSString * _Nonnull const RMCoreRobotDidConnectNotification;
  NSNotification posted from a robot, when the robot disconnects.
  */
 extern NSString * _Nonnull const RMCoreRobotDidDisconnectNotification;
+
+// Additional public headers (safe to include in the module)
 #import "ChargingStates.h"
 #import "DeviceModes.h"
 #import "EEPROMDefs.h"
 #import "HolonomicDriveProtocol.h"
 #import "InfoTypes.h"
-#import "IntelHexImage.h"
-#import "IntelHexLine.h"
 #import "LEDModes.h"
 #import "MotorCommandTypes.h"
 #import "ParameterTypes.h"
+#import "Romo3Defs.h"
 #import "RMCoreBumpDetector.h"
 #import "RMCoreDeviceMotion.h"
-#import "RMCoreDifferentialDrive.h"
 #import "RMCoreDriveController.h"
 #import "RMCoreHeadTilt.h"
 #import "RMCoreInertialStasis.h"
 #import "RMCoreLeakyIntegrator.h"
-#import "RMCoreLEDs_Internal.h"
 #import "RMCoreMotionInterface.h"
-#import "RMCoreMotor_Internal.h"
 #import "RMCoreMovingAverage.h"
 #import "RMCorePlatformMotion.h"
-#import "RMCoreRobot_Internal.h"
-#import "RMCoreRobotCommunication.h"
-#import "RMCoreRobotCommunicationOld.h"
-#import "RMCoreRobotDataTransport.h"
-#import "RMCoreRobotIdentification_Internal.h"
 #import "RMCoreRobotMotion.h"
-#import "RMCoreRobotVitals_Internal.h"
 #import "RMCoreStasisDetector.h"
-#import "RMProgrammingProtocol.h"
-#import "RobotCommunicationProtocol.h"
-#import "Romo3Defs.h"
-#import "SerialProtocol.h"
-#import "STK500Programmer.h"
+
+// NOTE: The following headers are intentionally NOT imported here.
+// They live in include/ and are available via #import "Header.h" from
+// .m files, but including them in the umbrella causes redefinition
+// errors in module compilation:
+//
+// _Internal.h headers (class extensions redeclare properties)
+// SerialProtocol.h, RMCoreRobotDataTransport.h,
+// RobotCommunicationProtocol.h, RMCoreRobotCommunication.h,
+// RMCoreRobotCommunicationOld.h (overlapping type definitions)
+// RMCoreDifferentialDrive.h (imports RMCoreRobot_Internal.h)
+// STK500Programmer.h, IntelHexImage.h, IntelHexLine.h,
+// RMProgrammingProtocol.h (import RMCoreRobotDataTransport.h)
