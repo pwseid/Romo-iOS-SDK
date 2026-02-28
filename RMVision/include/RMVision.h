@@ -81,6 +81,7 @@ extern NSString *const RMVisionModule_GPUImageExample;
 - (void)showDebugImage:(UIImage *)debugImage;
 @end
 
+#import "RMVisionModule.h"
 #import "RMBorderView.h"
 #import "RMBrightnessMeteringModule.h"
 #import "RMEyeDetectionModule.h"
@@ -99,4 +100,3 @@ extern NSString *const RMVisionModule_GPUImageExample;
 #import "RMVisionNaiveLineTrainingModule.h"
 #import "RMVisionObjectTrackingModule.h"
 #import "RMVisionObjectTrackingModuleDebug.h"
-#import "RMVisionModule.h"
