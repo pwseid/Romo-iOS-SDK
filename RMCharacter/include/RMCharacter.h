@@ -419,3 +419,14 @@ extern NSString *const RMCharacterDidBeginAudioNotification;
  NSNotification posted from a character, when audio finishes.
  */
 extern NSString *const RMCharacterDidFinishAudioNotification;
+#import "RMCharacterAnimation.h"
+#import "RMCharacterColorFill.h"
+#import "RMCharacterEye.h"
+#import "RMCharacterFace.h"
+#import "RMCharacterFaceEmotion.h"
+#import "RMCharacterPNS.h"
+#import "RMCharacterProtectedView.h"
+#import "RMCharacterPupil.h"
+#import "RMCharacterVoice.h"
+#import "UIImage+Cache.h"
+#import "UIImage+Cache.h"
