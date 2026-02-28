@@ -96,7 +96,7 @@ extern NSString *const RMVisionModule_GPUImageExample;
 #import "RMVisualStasisDetectionModule.h"
 #import "RMVisionBrightHueSegmentationModule.h"
 #import "RMVisionDebugBroker.h"
-#import "RMVisionModule.h"
 #import "RMVisionNaiveLineTrainingModule.h"
 #import "RMVisionObjectTrackingModule.h"
 #import "RMVisionObjectTrackingModuleDebug.h"
+#import "RMVisionModule.h"
