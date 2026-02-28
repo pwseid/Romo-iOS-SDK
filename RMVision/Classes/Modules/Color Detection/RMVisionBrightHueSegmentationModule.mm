@@ -10,7 +10,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 #import "RMVision_Internal.h"
 #import "GPUImageBrightHueSegmentation.h"

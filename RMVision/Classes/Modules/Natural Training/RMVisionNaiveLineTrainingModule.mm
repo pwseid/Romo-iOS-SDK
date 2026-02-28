@@ -12,7 +12,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMShared.h>
+#import "RMShared.h"
 #endif
 
 static const float kDefaultFloodFillTolerance = 1.0/UCHAR_MAX;

@@ -8,7 +8,7 @@
 #if SWIFT_PACKAGE
 #import "RMQuaternion.h"
 #else
-#import <Romo/RMQuaternion.h>
+#import "RMQuaternion.h"
 #endif
 
 @interface RMCorePlatformMotion()

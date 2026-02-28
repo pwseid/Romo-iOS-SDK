@@ -9,7 +9,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 
 // furthest we can be off from desired angle

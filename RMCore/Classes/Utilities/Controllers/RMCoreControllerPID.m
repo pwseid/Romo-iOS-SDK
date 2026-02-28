@@ -10,7 +10,7 @@
 #if SWIFT_PACKAGE
 #import "RMDispatchTimer.h"
 #else
-#import <Romo/RMDispatchTimer.h>
+#import "RMDispatchTimer.h"
 #endif
 
 #pragma mark - Macros/Constants

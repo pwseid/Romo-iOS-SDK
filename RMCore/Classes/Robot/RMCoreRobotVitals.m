@@ -9,7 +9,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 
 #define BATTERY_FULL                860     // 5.589V

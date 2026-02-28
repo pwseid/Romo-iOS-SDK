@@ -7,7 +7,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMShared.h>
+#import "RMShared.h"
 #endif
 
 /** Universally scales time (thus, speed) of the system */

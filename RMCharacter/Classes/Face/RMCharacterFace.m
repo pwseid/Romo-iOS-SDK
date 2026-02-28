@@ -11,13 +11,13 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 #import "RMCharacterColorFill.h"
 #if SWIFT_PACKAGE
 #import "UIImage+Cache.h"
 #else
-#import <Romo/UIImage+Cache.h>
+#import "UIImage+Cache.h"
 #endif
 
 #define romoBackgroundBlue ([UIColor colorWithHue:0.5361 saturation:1.0 brightness:0.93 alpha:1.0])

@@ -10,7 +10,7 @@
 #if SWIFT_PACKAGE
 #import "UIDevice+Romo.h"
 #else
-#import <Romo/UIDevice+Romo.h>
+#import "UIDevice+Romo.h"
 #endif
 
 @interface RMVisionModule ()

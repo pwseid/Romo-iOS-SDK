@@ -26,7 +26,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 
 #import "RMVisionDebugBroker.h"
@@ -39,7 +39,7 @@
 #if SWIFT_PACKAGE
 #import "UIDevice+Romo.h"
 #else
-#import <Romo/UIDevice+Romo.h>
+#import "UIDevice+Romo.h"
 #endif
 
 #ifdef VISION_DEBUG

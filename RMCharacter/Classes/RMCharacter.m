@@ -10,12 +10,12 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 #if SWIFT_PACKAGE
 #import "UIImage+Cache.h"
 #else
-#import <Romo/UIImage+Cache.h>
+#import "UIImage+Cache.h"
 #endif
 
 #define NUM_EMOTIONS    10

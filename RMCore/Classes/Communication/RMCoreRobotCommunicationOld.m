@@ -8,12 +8,12 @@
 #if SWIFT_PACKAGE
 #import "RMShared.h"
 #else
-#import <Romo/RMShared.h>
+#import "RMShared.h"
 #endif
 #if SWIFT_PACKAGE
 #import "RMDispatchTimer.h"
 #else
-#import <Romo/RMDispatchTimer.h>
+#import "RMDispatchTimer.h"
 #endif
 #import "RMCore.h"
 

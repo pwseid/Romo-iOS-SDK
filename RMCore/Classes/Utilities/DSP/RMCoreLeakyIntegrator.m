@@ -9,12 +9,12 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMMath.h>
+#import "RMMath.h"
 #endif
 #if SWIFT_PACKAGE
 #import "RMDispatchTimer.h"
 #else
-#import <Romo/RMDispatchTimer.h>
+#import "RMDispatchTimer.h"
 #endif
 
 #pragma mark - "private interface"

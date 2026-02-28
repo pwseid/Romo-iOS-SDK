@@ -13,7 +13,7 @@
 #if SWIFT_PACKAGE
 #import "UIView+Additions.h"
 #else
-#import <Romo/UIView+Additions.h>
+#import "UIView+Additions.h"
 #endif
 #import "RMBorderView.h"
 

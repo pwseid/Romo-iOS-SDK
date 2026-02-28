@@ -23,7 +23,7 @@
 #if SWIFT_PACKAGE
 #import "RMMath.h"
 #else
-#import <Romo/RMShared.h>
+#import "RMShared.h"
 #endif
 #import <CocoaLumberjack/DDLog.h>
 
