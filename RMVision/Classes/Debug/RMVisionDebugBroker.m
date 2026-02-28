@@ -249,7 +249,7 @@ static RMVisionDebugBroker *sharedInstance = nil;
         RMBorderView *border = [self.trackedObjects objectForKey:objectId];
         
         if (!border) {
-            border = [[RMBorderView alloc] initWithFrame:CGRectMake(0, 0, parentView.width, parentView.height)];
+            border = [[RMBorderView alloc] initWithFrame:CGRectMake(0, 0, parentView.bounds.size.width, parentView.bounds.size.height)];
             border.strokeColor = color;
             border.label = objectId;
             [self.trackedObjects setObject:border forKey:objectId];
